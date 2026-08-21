@@ -111,13 +111,13 @@ void Form::checkGrade() const
 // Message retourné lorsqu'un grade est supérieur à la limite autorisée.
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return ("Le grade est trop élevé.");
+	return ("rank is too high.");
 }
 
 // Message retourné lorsqu'un grade est inférieur à la limite autorisée.
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return ("Le grade est trop bas.");
+	return ("rank is too low.");
 }
 
 /* Permet d'afficher directement un formulaire.
@@ -126,18 +126,19 @@ const char* Form::GradeTooLowException::what() const throw()
    std::cout << form; */
 std::ostream& operator<<(std::ostream& os, const Form& form)
 {
+	os << "The ";
 	os << "Form \"" << form.getName() << "\"";
 
 	if (form.getIsSigned())
-		os << " is signed.";
+		os << GREEN << " has been signed." << RESET;
 	else
-		os << " is not signed.";
+		os << RED << " has not been signed." << RESET;
 
-	os << " Required grade to sign is "
+	os << " The required level is "
 		<< form.getGradeToSign()
-		<< " and to execute is "
+		<< " for signing and "
 		<< form.getGradeToExec()
-		<< "."
+		<< " for execution."
 		<< std::endl;
 
 	return (os);

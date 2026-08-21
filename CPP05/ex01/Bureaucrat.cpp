@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 /* Constructeur par défaut.
    Le bureaucrate possède le grade le plus faible : 150. */
@@ -74,20 +75,32 @@ int Bureaucrat::getGrade() const
    l'opération est impossible. */
 void Bureaucrat::incrementGrade()
 {
-	std::cout << BLUE << "Tentative de promotion" << RESET << std::endl;
+	std::cout << BLUE << "Promotional attempt" << RESET << std::endl;
 	if (_grade == 1)
 		throw GradeTooHighException();
 	_grade--;
 }
 
+/* Tente de signer un formulaire.
+
+   beSigned() vérifie si le grade du bureaucrate
+   est suffisant pour signer le formulaire.
+
+   Si le grade est suffisant, le formulaire est signé.
+   Sinon, beSigned() déclenche une exception qui est
+   interceptée ici. */
 void Bureaucrat::signForm(Form& f) const
 {
-	try{
+	try
+	{
 		f.beSigned(*this);
-		std::cout << getName() << " signs " << f.getName() << " form." << std::endl;
+		std::cout << getName() << GREEN << " signed the " << RESET << f.getName();
+		std::cout << " form." << std::endl;
 	}
-	catch (std::exception& e){
-		std::cout << getName() << " cannot signs " << f.getName() << " form" << " because " << e.what() << std::endl;
+	catch (std::exception& e)
+	{
+		std::cout << getName() << RED << " cannot sign the " << RESET << f.getName();
+		std::cout << " form because her " << e.what() << std::endl;
 	}
 }
 
@@ -102,7 +115,7 @@ void Bureaucrat::signForm(Form& f) const
    l'opération est impossible. */
 void Bureaucrat::decrementGrade()
 {
-	std::cout << BLUE << "Tentative de retrogradation" << RESET << std::endl;
+	std::cout << BLUE << "Attempted demotion." << RESET << std::endl;
 	if (_grade == 150)
 		throw GradeTooLowException();
 	_grade++;
@@ -128,19 +141,19 @@ void Bureaucrat::checkGrade() const
       Affichera : Sophie, bureaucrat grade 42. */
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
 {
-	os << b.getName() << ", bureaucrat grade ";
-	os << b.getGrade() << "." << std::endl;
+	os << YELLOW << b.getName() << ", a Grade ";
+	os << b.getGrade() << " bureaucrat." << RESET << std::endl;
 	return (os);
 }
 
 // Message retourné lorsqu'un grade est trop élevé.
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
-	return ("Le grade est trop élevé.");
+	return ("rank is too high.");
 }
 
 // Message retourné lorsqu'un grade est trop faible.
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	return ("Le grade est trop bas.");
+	return ("rank is too low.");
 }

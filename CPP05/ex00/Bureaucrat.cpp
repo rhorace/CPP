@@ -74,7 +74,7 @@ int Bureaucrat::getGrade() const
    l'opération est impossible. */
 void Bureaucrat::incrementGrade()
 {
-	std::cout << BLUE << "Tentative de promotion" << RESET << std::endl;
+	std::cout << BLUE << "Promotional attempt." << RESET << std::endl;
 	if (_grade == 1)
 		throw GradeTooHighException();
 	_grade--;
@@ -91,7 +91,7 @@ void Bureaucrat::incrementGrade()
    l'opération est impossible. */
 void Bureaucrat::decrementGrade()
 {
-	std::cout << BLUE << "Tentative de retrogradation" << RESET << std::endl;
+	std::cout << BLUE << "Attempted demotion." << RESET << std::endl;
 	if (_grade == 150)
 		throw GradeTooLowException();
 	_grade++;
@@ -117,19 +117,19 @@ void Bureaucrat::checkGrade() const
       Affichera : Sophie, bureaucrat grade 42. */
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
 {
-	os << b.getName() << ", bureaucrat grade ";
-	os << b.getGrade() << "." << std::endl;
+	os << b.getName() << ", a Grade ";
+	os << b.getGrade() << " bureaucrat." << std::endl;
 	return (os);
 }
 
 // Message retourné lorsqu'un grade est trop élevé.
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
-	return ("Le grade est trop élevé.");
+	return ("The rank is too high.");
 }
 
 // Message retourné lorsqu'un grade est trop faible.
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	return ("Le grade est trop bas.");
+	return ("The rank is too low.");
 }
